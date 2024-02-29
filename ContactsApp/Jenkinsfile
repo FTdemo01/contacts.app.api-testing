@@ -1,61 +1,65 @@
 pipeline {
-  agent { label 'master' }
-  options {
-    buildDiscarder(logRotator(numToKeepStr: '7'))
-    gitLabConnection('myGitlab')
-    ansiColor('xterm')
-    timestamps()
-  }
-
-  tools {
-    jdk 'jdk-11.0.16'
-  }
-  stages {
-    stage('Build') {
-      steps {
-        sh 'sh gradlew build -x test'
-      }
-    }
-    stage('Unit Test') {
-      steps {
-        sh 'sh gradlew test jacocoRootReport'
-      }
-    }
-    stage('Build and Publish Docker') {
-      steps {
-        sh 'sh gradlew buildDocker -Ppush -x test -x compileJava -x bootJar'
-      }
+    agent any
+    
+    environment {
+        DOTNET_CLI_TELEMETRY_OPTOUT = 'true'
     }
     
-  }
-  post {
-   
-    success {
-        // notifySlack('SUCCESSFUL')
-        updateGitlabCommitStatus(name: 'jenkins', state: 'success')
-        cleanWs()
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+        
+        stage('Restore') {
+            steps {
+                script {
+                    // Restoring dependencies
+                    sh 'dotnet restore'
+                }
+            }
+        }
+        
+        stage('Build') {
+            steps {
+                script {
+                    // Building the project
+                    sh 'dotnet build --configuration Release'
+                }
+            }
+        }
+        
+        stage('Test') {
+            steps {
+                script {
+                    // Running tests
+                    sh 'dotnet test --no-restore --verbosity normal'
+                }
+            }
+        }
+        
+        stage('Publish') {
+            steps {
+                script {
+                    // Publishing the project
+                    sh 'dotnet publish --configuration Release --output ./publish'
+                }
+            }
+            post {
+                success {
+                    // Archiving artifacts
+                    archiveArtifacts artifacts: 'publish/**'
+                }
+            }
+        }
     }
-    fixed {
-      emailext (
-        subject: "Build is back to normal!: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
-        body: '${SCRIPT, template="groovy-html.template"}',
-        to: "DevOps@futurism.com",
-        recipientProviders: [[$class: 'CulpritsRecipientProvider']]
-      ) 
+    
+    // Optional: Post-build actions
+    post {
+        always {
+            // Cleaning up
+            cleanWs()
+        }
     }
-    failure {
-      notifySlack('FAILED')
-      script {
-        USEREMAIL = sh (script: 'git show -s --format=%ae',returnStdout: true)
-      }
-      emailext (
-        subject: "Build failed: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
-        body: '${SCRIPT, template="groovy-html.template"}',
-        to: "DevOps@futurism.com, ${USEREMAIL}",
-        recipientProviders: [[$class: 'DevelopersRecipientProvider']]
-      )
-      updateGitlabCommitStatus(name: 'jenkins', state: 'failed')
-      cleanWs()
-    }
-  }
 }
