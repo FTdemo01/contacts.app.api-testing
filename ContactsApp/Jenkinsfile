@@ -1,25 +1,18 @@
 pipeline {
-    agent {
-        docker {
-            image 'mcr.microsoft.com/dotnet/sdk:latest'
-            args '-v /var/run/docker.sock:/var/run/docker.sock'
-        }
-    }
-    environment {
-        DOTNET_CLI_TELEMETRY_OPTOUT = 'true'
-    }
+    agent any
     
     stages {
         stage('Checkout') {
             steps {
-                checkout scm
+                // Checkout your source code repository
+                git 'https://github.com/your/repository.git'
             }
         }
         
         stage('Restore') {
             steps {
+                // Restore dependencies
                 script {
-                    // Restoring dependencies
                     sh 'dotnet restore'
                 }
             }
@@ -27,8 +20,8 @@ pipeline {
         
         stage('Build') {
             steps {
+                // Build the .NET project
                 script {
-                    // Building the project
                     sh 'dotnet build --configuration Release'
                 }
             }
@@ -36,34 +29,39 @@ pipeline {
         
         stage('Test') {
             steps {
+                // Run tests
                 script {
-                    // Running tests
-                    sh 'dotnet test --no-restore --verbosity normal'
+                    sh 'dotnet test --configuration Release'
                 }
             }
         }
         
         stage('Publish') {
             steps {
+                // Publish the project
                 script {
-                    // Publishing the project
                     sh 'dotnet publish --configuration Release --output ./publish'
                 }
             }
-            post {
-                success {
-                    // Archiving artifacts
-                    archiveArtifacts artifacts: 'publish/**'
-                }
+        }
+        
+        stage('Deploy') {
+            steps {
+                // Perform deployment steps, if any
+                // For example, copying artifacts to a server
             }
         }
     }
     
-    // Optional: Post-build actions
     post {
+        success {
+            // Perform actions when the pipeline succeeds
+        }
+        failure {
+            // Perform actions when the pipeline fails
+        }
         always {
-            // Cleaning up
-            cleanWs()
+            // Perform actions that should always run (clean-up, notifications, etc.)
         }
     }
 }
