@@ -9,15 +9,6 @@ pipeline {
             }
         }
         
-        #stage('Restore') {
-            #steps {
-                // Restore dependencies
-                #script {
-                    #sh 'dotnet restore'
-                }
-            }
-        }
-        
         stage('Build') {
             steps {
                 // Build the .NET project
@@ -32,15 +23,6 @@ pipeline {
                 // Run tests
                 script {
                     sh 'dotnet test --configuration Release'
-                }
-            }
-        }
-        
-        #stage('Publish') {
-            #steps {
-                // Publish the project
-                #script {
-                    #sh 'dotnet publish --configuration Release --output ./publish'
                 }
             }
         }
