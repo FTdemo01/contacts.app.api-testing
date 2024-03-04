@@ -9,11 +9,11 @@ pipeline {
             }
         }
         
-        stage('Restore') {
-            steps {
+        #stage('Restore') {
+            #steps {
                 // Restore dependencies
-                script {
-                    sh 'dotnet restore'
+                #script {
+                    #sh 'dotnet restore'
                 }
             }
         }
@@ -36,11 +36,11 @@ pipeline {
             }
         }
         
-        stage('Publish') {
-            steps {
+        #stage('Publish') {
+            #steps {
                 // Publish the project
-                script {
-                    sh 'dotnet publish --configuration Release --output ./publish'
+                #script {
+                    #sh 'dotnet publish --configuration Release --output ./publish'
                 }
             }
         }
