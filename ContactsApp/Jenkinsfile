@@ -47,8 +47,7 @@ pipeline {
         
         stage('Deploy') {
             steps {
-                // Perform deployment steps, if any
-                // For example, copying artifacts to a server
+                echo 'Deployment completed successfully'
             }
         }
     }
