@@ -13,8 +13,8 @@ pipeline {
             steps {
                 // Build the .NET project
                 script {
-                    cd .\ContactsApp\
-                    sh 'dotnet build --configuration Release'
+                    dir('ContactsApp') {
+            sh 'dotnet build --configuration Release'
                 }
             }
         }
