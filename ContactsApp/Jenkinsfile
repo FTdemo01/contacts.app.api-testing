@@ -16,7 +16,7 @@ pipeline {
         stage('Build') {
             steps {
                 // Build the .NET solution
-                sh 'msbuild /t:Build /p:Configuration=Release ContactsApp.sln'
+                sh '/ContactsApp/msbuild /t:Build /p:Configuration=Release ContactsApp.sln'
             }
         }
     }
