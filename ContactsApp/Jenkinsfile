@@ -9,17 +9,6 @@ pipeline {
             }
         }
         
-        stage('Build') {
-            steps {
-                // Build the .NET project
-                script {
-                    dir('ContactsApp') {
-                        sh 'dotnet build --configuration Release'
-                    }
-                }
-            }
-        }
-        
         stage('Test') {
             steps {
                 // Run tests
