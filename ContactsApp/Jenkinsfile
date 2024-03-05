@@ -5,6 +5,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Checkout the source code from your version control system
+                credentialsId: '7730181d-77a7-4bcb-9f8a-30355c2f496d'
                 git 'https://github.com/FTdemo01/contacts.app.api-testing.git'
             }
         }
