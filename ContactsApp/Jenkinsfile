@@ -4,39 +4,32 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Checkout your source code repository
+                // Checkout the source code from your version control system
                 git 'https://github.com/FTdemo01/contacts.app.api-testing.git'
             }
         }
         
-        stage('Test') {
+        stage('Build') {
             steps {
-                // Run tests
-                script {
-                    sh 'dotnet test --configuration Release'
-                }
-            }
-        }
-        
-        stage('Deploy') {
-            steps {
-                echo 'Deployment completed successfully'
+                // Build the .NET solution
+                sh 'msbuild /t:Build /p:Configuration=Release ContactsApp.sln'
             }
         }
     }
     
     post {
         success {
-            // Perform actions when the pipeline succeeds
-            echo 'Pipeline succeeded!'
+            // Actions to perform after successful pipeline execution
+            echo 'Pipeline executed successfully!'
         }
         failure {
-            // Perform actions when the pipeline fails
-            echo 'Pipeline failed!'
+            // Actions to perform after failed pipeline execution
+            echo 'Pipeline execution failed!'
         }
         always {
-            // Perform actions that should always run (clean-up, notifications, etc.)
-            echo 'Pipeline completed!'
+            // Actions to perform regardless of pipeline result
+            // For example, cleanup steps
+            cleanWs()
         }
     }
 }
