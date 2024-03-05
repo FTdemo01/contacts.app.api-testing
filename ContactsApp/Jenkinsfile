@@ -5,8 +5,11 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Checkout the source code from your version control system
-                credentialsId: '7730181d-77a7-4bcb-9f8a-30355c2f496d'
-                git 'https://github.com/FTdemo01/contacts.app.api-testing.git'
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'Github_credentials', usernameVariable: 'poonam', passwordVariable: 'Admin@123')]) {
+                        git credentialsId: 'Github_credentials', url: 'https://github.com/FTdemo01/contacts.app.api-testing.git', branch: 'main', username: env.USERNAME, password: env.PASSWORD
+                    }
+                }
             }
         }
         
