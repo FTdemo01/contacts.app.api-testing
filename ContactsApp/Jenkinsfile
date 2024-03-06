@@ -17,7 +17,6 @@ pipeline {
             steps {
                 // Build the .NET solution
                 dir('CONTACTS.APP.API-TESTING') {
-                    sh 'chmod +rw ContactsApp.sln'
                     sh 'dotnet build ContactsApp.sln --configuration Release'
                 }
             }
