@@ -16,7 +16,7 @@ pipeline {
         stage('Build') {
             steps {
                 // Build the .NET solution
-                sh 'dotnet build ContactsApp.sln --configuration Release'
+                sh '/ContactsApp/dotnet build ContactsApp.sln --configuration Release'
             }
         }
     }
