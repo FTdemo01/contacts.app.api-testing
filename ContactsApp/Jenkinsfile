@@ -16,7 +16,7 @@ pipeline {
         stage('Build') {
             steps {
                 // Build the .NET solution
-                dir('CONTACTS.APP.API-TESTING/ContactsApp') {
+                dir('CONTACTS.APP.API-TESTING') {
                     sh 'dotnet build ContactsApp.sln --configuration Release'
                 }
             }
