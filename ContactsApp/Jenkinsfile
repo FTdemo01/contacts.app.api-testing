@@ -20,6 +20,13 @@ pipeline {
             }
         }
         
+        stage('Debug') {
+            steps {
+                // Debugging step to print contents of the directory containing msbuild
+                sh 'ls -l /mnt/d/Testing/contacts.app.api-testing/ContactsApp'
+            }
+        }
+        
         stage('Build') {
             steps {
                 // Build the .NET solution using MSBuild
