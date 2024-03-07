@@ -2,51 +2,29 @@ pipeline {
     agent any
     
     stages {
-        //   stage('CD') {
-        //     steps {
-        //         sh 'cd /mnt/d/Testing/'
-        //     }
-        // }
-       stage('Checkout') {
-        steps {
-            // Checkout the source code from your version control system
-            sh 'git clone https://github.com/FTdemo01/contacts.app.api-testing.git'
-            // script {
-            //     withCredentials([usernamePassword(credentialsId: 'Github_credentials', usernameVariable: 'poonam', passwordVariable: 'Admin@123')]) {
-            //         git credentialsId: 'Github_credentials', url: 'https://github.com/FTdemo01/contacts.app.api-testing.git', branch: 'main', username: env.USERNAME, password: env.PASSWORD
-            //     }
-            // }
-            sleep(30)
+        stage('Checkout') {
+            steps {
+                sh 'git clone https://github.com/FTdemo01/contacts.app.api-testing.git'
+                sleep(30)
+            }
         }
-    }
-    // Add your other stages here
 
-
-        
         stage('Check .NET SDK') {
             steps {
-                // Check .NET SDK version
                 sh 'dotnet --version'
             }
         }
         
         stage('Debug') {
             steps {
-                // Debugging step to print contents of the directory containing msbuild
-                // sh 'ls -l /mnt/d/Testing/contacts.app.api-testing/ContactsApp'
                 sh 'ls -l'
             }
         }
         
         stage('Build') {
             steps {
-                // Build the .NET solution using MSBuild
-                dir('contacts.app.api-testing') {
-                    // Navigate to the directory containing the solution file
-                    dir('ContactsApp') {
-                        // Build the .NET solution using MSBuild with full path
-                        sh 'dotnet build /p:Configuration=Release'
-                    }
+                dir('contacts.app.api-testing/ContactsApp') {
+                    sh 'dotnet build /p:Configuration=Release'
                 }
             }
         }
@@ -54,17 +32,22 @@ pipeline {
     
     post {
         success {
-            // Actions to perform after successful pipeline execution
             echo 'Pipeline executed successfully!'
+            // Build Docker image
+            buildDockerImage()
         }
         failure {
-            // Actions to perform after failed pipeline execution
             echo 'Pipeline execution failed!'
         }
         always {
-            // Actions to perform regardless of pipeline result
-            // For example, cleanup steps
             cleanWs()
         }
+    }
+}
+
+def buildDockerImage() {
+    // Build Docker image
+    dir('contacts.app.api-testing/ContactsApp') {
+        sh 'docker build -t your-image-name:latest .'
     }
 }
