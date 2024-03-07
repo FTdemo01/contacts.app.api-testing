@@ -22,12 +22,12 @@ pipeline {
         
         stage('Build') {
             steps {
-                // Build the .NET solution
+                // Build the .NET solution using MSBuild
                 dir('CONTACTS.APP.API-TESTING') {
                     // Navigate to the directory containing the solution file
                     dir('ContactsApp') {
-                        // Build the .NET solution
-                        sh 'msbuild ContactsApp.sln /p:Configuration=Release'
+                        // Build the .NET solution using MSBuild with full path
+                        sh '"/mnt/d/Testing/contacts.app.api-testing/ContactsApp/msbuild" ContactsApp.sln /p:Configuration=Release'
                     }
                 }
             }
