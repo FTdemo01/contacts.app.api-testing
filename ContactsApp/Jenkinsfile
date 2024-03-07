@@ -2,20 +2,22 @@ pipeline {
     agent any
     
     stages {
-        stage('Checkout') {
-            steps {
-                // Check .NET SDK version
-                sh 'cd /mnt/d/Testing/'
-            }
-            steps {
-                // Checkout the source code from your version control system
-                script {
-                    withCredentials([usernamePassword(credentialsId: 'Github_credentials', usernameVariable: 'poonam', passwordVariable: 'Admin@123')]) {
-                        git credentialsId: 'Github_credentials', url: 'https://github.com/FTdemo01/contacts.app.api-testing.git', branch: 'main', username: env.USERNAME, password: env.PASSWORD
-                    }
+    stage('Checkout') {
+        steps {
+            // Check .NET SDK version
+            sh 'cd /mnt/d/Testing/'
+            
+            // Checkout the source code from your version control system
+            script {
+                withCredentials([usernamePassword(credentialsId: 'Github_credentials', usernameVariable: 'poonam', passwordVariable: 'Admin@123')]) {
+                    git credentialsId: 'Github_credentials', url: 'https://github.com/FTdemo01/contacts.app.api-testing.git', branch: 'main', username: env.USERNAME, password: env.PASSWORD
                 }
             }
         }
+    }
+    // Add your other stages here
+
+
         
         stage('Check .NET SDK') {
             steps {
