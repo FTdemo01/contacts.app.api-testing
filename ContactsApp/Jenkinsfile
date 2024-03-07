@@ -2,11 +2,11 @@ pipeline {
     agent any
     
     stages {
-          stage('CD') {
-            steps {
-                sh 'cd /mnt/d/Testing/'
-            }
-        }
+        //   stage('CD') {
+        //     steps {
+        //         sh 'cd /mnt/d/Testing/'
+        //     }
+        // }
        stage('Checkout') {
         steps {
             // Checkout the source code from your version control system
@@ -33,14 +33,15 @@ pipeline {
         stage('Debug') {
             steps {
                 // Debugging step to print contents of the directory containing msbuild
-                sh 'ls -l /mnt/d/Testing/contacts.app.api-testing/ContactsApp'
+                // sh 'ls -l /mnt/d/Testing/contacts.app.api-testing/ContactsApp'
+                sh 'ls -l'
             }
         }
         
         stage('Build') {
             steps {
                 // Build the .NET solution using MSBuild
-                dir('CONTACTS.APP.API-TESTING') {
+                dir('contacts.app.api-testing') {
                     // Navigate to the directory containing the solution file
                     dir('ContactsApp') {
                         // Build the .NET solution using MSBuild with full path
