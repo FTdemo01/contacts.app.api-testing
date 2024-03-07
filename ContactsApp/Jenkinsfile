@@ -16,6 +16,7 @@ pipeline {
             //         git credentialsId: 'Github_credentials', url: 'https://github.com/FTdemo01/contacts.app.api-testing.git', branch: 'main', username: env.USERNAME, password: env.PASSWORD
             //     }
             // }
+            sleep(30)
         }
     }
     // Add your other stages here
