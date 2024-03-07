@@ -4,6 +4,10 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
+                // Check .NET SDK version
+                sh 'cd /mnt/d/Testing/'
+            }
+            steps {
                 // Checkout the source code from your version control system
                 script {
                     withCredentials([usernamePassword(credentialsId: 'Github_credentials', usernameVariable: 'poonam', passwordVariable: 'Admin@123')]) {
