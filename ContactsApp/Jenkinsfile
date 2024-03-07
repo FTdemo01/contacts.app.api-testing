@@ -34,7 +34,7 @@ pipeline {
                     // Navigate to the directory containing the solution file
                     dir('ContactsApp') {
                         // Build the .NET solution using MSBuild with full path
-                        sh '"/mnt/d/Testing/contacts.app.api-testing/ContactsApp/msbuild" ContactsApp.sln /p:Configuration=Release'
+                        sh '"/usr/lib/dotnet/sdk/8.0.102/MSBuild.dll" ContactsApp.sln /p:Configuration=Release'
                     }
                 }
             }
