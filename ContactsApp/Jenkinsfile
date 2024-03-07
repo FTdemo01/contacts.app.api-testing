@@ -27,7 +27,7 @@ pipeline {
                     // Navigate to the directory containing the solution file
                     dir('ContactsApp') {
                         // Build the .NET solution
-                        sh 'dotnet build ContactsApp.sln --configuration Release'
+                        sh 'msbuild ContactsApp.sln /p:Configuration=Release'
                     }
                 }
             }
