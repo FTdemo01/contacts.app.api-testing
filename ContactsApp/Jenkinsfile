@@ -48,6 +48,6 @@ pipeline {
 def buildDockerImage() {
     // Build Docker image
     dir('contacts.app.api-testing/ContactsApp/Dockerfile') {
-        sh 'docker build -t my-image:latest .'
+        sh 'docker build -t my-image:latest --file custom-dockerfile .'
     }
 }
