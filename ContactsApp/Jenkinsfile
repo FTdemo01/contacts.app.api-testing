@@ -29,6 +29,13 @@ pipeline {
             }
         }
     }
+
+    def buildDockerImage() {
+        // Build Docker image
+        dir('contacts.app.api-testing/ContactsApp') {
+            sh 'docker build -t my-image1:latest .'
+        }
+    }
     
     post {
         success {
@@ -42,14 +49,5 @@ pipeline {
         always {
             cleanWs()
         }
-    }
-}
-
-def buildDockerImage() {
-    // Build Docker image
-    dir('contacts.app.api-testing/ContactsApp')
-    echo "moving inside the dir" {
-        sh 'docker build -t my-image1:latest .'
-        echo "docker complete"
     }
 }
