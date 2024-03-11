@@ -29,12 +29,11 @@ pipeline {
             }
         }
 
-        stage (Build docker){
-            steps{
+        stage('Build docker') {
+            steps {
                 sh 'docker build -t my-image1:latest .'
             }
         }
-           
     }
 
     post {
