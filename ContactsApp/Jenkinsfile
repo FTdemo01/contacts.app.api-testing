@@ -47,7 +47,9 @@ pipeline {
 
 def buildDockerImage() {
     // Build Docker image
-    dir('contacts.app.api-testing/ContactsApp') {
+    dir('contacts.app.api-testing/ContactsApp')
+    echo "moving inside the dir" {
         sh 'docker build -t my-image1:latest .'
+        echo "docker complete"
     }
 }
