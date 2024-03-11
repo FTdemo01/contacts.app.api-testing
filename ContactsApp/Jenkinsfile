@@ -1,3 +1,10 @@
+def buildDockerImage() {
+    // Build Docker image
+    dir('contacts.app.api-testing/ContactsApp') {
+        sh 'docker build -t my-image1:latest .'
+    }
+}
+
 pipeline {
     agent any
     
@@ -30,13 +37,6 @@ pipeline {
         }
     }
 
-    def buildDockerImage() {
-        // Build Docker image
-        dir('contacts.app.api-testing/ContactsApp') {
-            sh 'docker build -t my-image1:latest .'
-        }
-    }
-    
     post {
         success {
             echo 'Pipeline executed successfully!'
