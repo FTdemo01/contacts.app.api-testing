@@ -1,12 +1,13 @@
 # Use the official .NET Core SDK image as a build stage
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-WORKDIR /var/lib/jenkins/workspace/demo2_main-docker/contacts.app.api-testing/ContactsApp
+WORKDIR /var/lib/jenkins/workspace/demo2_main-docker/contacts.app.api-testing/ContactsApp/ContactsApp
 
 # Copy the solution file and restore dependencies =1 
 # COPY --chown=user:user *.sln .
 
 COPY . ./
 RUN ls -la
+RUN pwd
 RUN dotnet restore
 
 # Copy the remaining source code and build the application
