@@ -3,8 +3,13 @@ WORKDIR /App
 
 # Copy everything
 COPY *.sln ./
+
 # Restore as distinct layers
 RUN dotnet restore ContactsApp.sln
+
+# Copy the entire project
+COPY . ./
+
 # Build and publish a release
 RUN dotnet publish -c Release -o out
 
