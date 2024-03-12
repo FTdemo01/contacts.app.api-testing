@@ -31,7 +31,7 @@ pipeline {
 
         stage('Build docker') {
             steps {
-                sh 'docker build -t my-image1:latest .'
+                sh 'docker build -t my-image1:latest -f contacts.app.api-testing\ContactsApp Dockerfile .'
             }
         }
     }
