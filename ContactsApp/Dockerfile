@@ -1,27 +1,26 @@
-# Use the .NET SDK image to build the application
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
+# Use the official .NET Core SDK image as a build stage
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /app
 
-# Set the working directory to where your project file exists
-WORKDIR /App
+# Copy the solution file and restore dependencies
+COPY *.sln .
+RUN dotnet restore
 
-# Copy the project files
-COPY *.sln ./
+# Copy the remaining source code and build the application
+COPY . .
+WORKDIR /app/ContactsApp
+RUN dotnet build -c Release -o /app/build
 
-# Restore dependencies
-RUN dotnet restore ContactsApp.sln
+# Run tests if any
 
-# Build and publish the application
-COPY . ./
-RUN dotnet publish -c Release -o out
+# Publish the application
+FROM build AS publish
+RUN dotnet publish -c Release -o /app/publish
 
-# Build the runtime image
+# Final stage: create the runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
+WORKDIR /app
+COPY --from=publish /app/publish .
 
-# Set the working directory for the runtime image
-WORKDIR /App
-
-# Copy the published output from the build stage
-COPY --from=build-env /App/out .
-
-# Command to run when the container starts
+# Set the entry point for the application
 ENTRYPOINT ["dotnet", "ContactsApp.dll"]
