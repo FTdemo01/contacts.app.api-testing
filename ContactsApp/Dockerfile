@@ -22,11 +22,12 @@ RUN dotnet restore
 # Publish the application
 # FROM build AS publish
 RUN dotnet publish -c Release -o out
-
+WORKDIR /var/lib/jenkins/workspace/demo2_main-docker/contacts.app.api-testing/ContactsApp/ContactsApp/out
+RUN ls -la
 # Final stage: create the runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
-WORKDIR /var/lib/jenkins/workspace/demo2_main-docker/contacts.app.api-testing/ContactsApp
-COPY --from=build /var/lib/jenkins/workspace/demo2_main-docker/contacts.app.api-testing/ContactsApp/out .
+WORKDIR /var/lib/jenkins/workspace/demo2_main-docker/contacts.app.api-testing/ContactsApp/ContactsApp
+COPY --from=build /var/lib/jenkins/workspace/demo2_main-docker/contacts.app.api-testing/ContactsApp/ContactsApp/out .
 
 # Set the entry point for the application
 ENTRYPOINT ["dotnet", "ContactsApp.dll"]
