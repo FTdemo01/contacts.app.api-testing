@@ -2,7 +2,7 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /app
 
-# Copy the solution file and restore dependencies
+# Copy the solution file and restore dependencies =1 
 COPY --chown=user:user *.sln .
 RUN ls -la
 RUN dotnet restore
