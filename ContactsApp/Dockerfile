@@ -8,9 +8,10 @@ WORKDIR /App
 COPY *.sln ./
 
 # Restore dependencies
-#RUN dotnet restore
+RUN dotnet restore ContactsApp.sln
 
 # Build and publish the application
+COPY . ./
 RUN dotnet publish -c Release -o out
 
 # Build the runtime image
