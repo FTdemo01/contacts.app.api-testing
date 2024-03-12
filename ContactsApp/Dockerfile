@@ -8,7 +8,7 @@ WORKDIR /App
 COPY *.sln ./
 
 # Restore dependencies
-RUN dotnet restore
+#RUN dotnet restore
 
 # Build and publish the application
 RUN dotnet publish -c Release -o out
