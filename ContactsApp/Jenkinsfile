@@ -39,8 +39,7 @@ pipeline {
     post {
         success {
             echo 'Pipeline executed successfully!'
-            // Build Docker image
-            buildDockerImage()
+           
         }
         failure {
             echo 'Pipeline execution failed!'
