@@ -4,6 +4,7 @@ WORKDIR /var/lib/jenkins/workspace/demo2_main-docker/contacts.app.api-testing/Co
 
 # Copy the solution file and restore dependencies =1 
 # COPY --chown=user:user *.sln .
+<<<<<<< HEAD
 # RUN ls -la
 COPY . ./
 RUN dotnet restore
@@ -26,3 +27,32 @@ COPY --from=build /var/lib/jenkins/workspace/demo2_main-docker/contacts.app.api-
 
 # Set the entry point for the application
 ENTRYPOINT ["dotnet", "ContactsApp.dll"]
+=======
+RUN ls -la
+RUN pwd
+COPY . ./
+WORKDIR /var/lib/jenkins/workspace/demo2_main-docker/contacts.app.api-testing/ContactsApp/ContactsApp
+RUN ls -la
+RUN pwd
+RUN dotnet restore
+
+# Copy the remaining source code and build the application
+# COPY . .
+# WORKDIR /var/lib/jenkins/workspace/demo2_main-docker/contacts.app.api-testing/ContactsApp/ContactsApp
+# RUN dotnet build -c Release -o /var/lib/jenkins/workspace/demo2_main-docker/contacts.app.api-testing/ContactsApp/build
+
+# Run tests if any
+
+# Publish the application
+# FROM build AS publish
+RUN dotnet publish -c Release -o out
+WORKDIR /var/lib/jenkins/workspace/demo2_main-docker/contacts.app.api-testing/ContactsApp/ContactsApp/out
+RUN ls -la
+# Final stage: create the runtime image
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
+WORKDIR /var/lib/jenkins/workspace/demo2_main-docker/contacts.app.api-testing/ContactsApp/ContactsApp
+COPY --from=build /var/lib/jenkins/workspace/demo2_main-docker/contacts.app.api-testing/ContactsApp/ContactsApp/out .
+
+# Set the entry point for the application
+ENTRYPOINT ["dotnet", "ContactsApp.dll"]
+>>>>>>> 9f522182ce3d2aa951c1db69b6e1bcd595d4a464
