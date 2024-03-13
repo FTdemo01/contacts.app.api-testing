@@ -4,14 +4,14 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                sh 'git clone https://github.com/FTdemo01/contacts.app.api-testing.git'
+                sh 'git clone --branch main-docker https://github.com/FTdemo01/contacts.app.api-testing.git'
                 sleep(30)
             }
         }
 
         stage('Check .NET SDK') {
             steps {
-                sh 'dotnet --version'
+                sh 'dotnet -version'
             }
         }
         
