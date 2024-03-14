@@ -11,7 +11,7 @@ RUN dotnet restore
 # Copy the remaining source code and build the application
 # COPY . .
 # WORKDIR /var/lib/jenkins/workspace/demo2_main-docker/contacts.app.api-testing/ContactsApp/ContactsApp
-# RUN dotnet build -c Release -o /var/lib/jenkins/workspace/demo2_main-docker/contacts.app.api-testing/ContactsApp/build
+RUN dotnet build -c Release -o /var/lib/jenkins/workspace/demo2_main-docker/contacts.app.api-testing/ContactsApp/build
 
 # Run tests if any
 
