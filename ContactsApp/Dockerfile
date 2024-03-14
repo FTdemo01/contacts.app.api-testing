@@ -1,12 +1,11 @@
 # Use the official .NET Core SDK image as a build stage
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-WORKDIR /var/lib/jenkins/workspace/demo2_main-docker/contacts.app.api-testing/ContactsApp/ContactsApp
+WORKDIR /var/lib/jenkins/workspace/demo2_main-docker/contacts.app.api-testing/ContactsApp
 
 # Copy the solution file and restore dependencies =1 
 # COPY --chown=user:user *.sln .
-
-COPY . ./
 RUN ls -la
+COPY . ./
 WORKDIR /var/lib/jenkins/workspace/demo2_main-docker/contacts.app.api-testing/ContactsApp/ContactsApp
 RUN dotnet restore
 
@@ -20,7 +19,7 @@ RUN dotnet restore
 # Publish the application
 # FROM build AS publish
 RUN dotnet publish -c Release -o out
-
+WORKDIR /var/lib/jenkins/workspace/demo2_main-docker/contacts.app.api-testing/ContactsApp/ContactsApp/out
 # Final stage: create the runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /var/lib/jenkins/workspace/demo2_main-docker/contacts.app.api-testing/ContactsApp/ContactsApp
