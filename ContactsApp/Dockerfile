@@ -5,6 +5,7 @@ WORKDIR /var/lib/jenkins/workspace/demo2_main-docker/contacts.app.api-testing/Co
 # Copy the solution file and restore dependencies =1 
 # COPY --chown=user:user *.sln .
 # RUN ls -la
+RUN pwd
 COPY . ./
 RUN dotnet restore
 
