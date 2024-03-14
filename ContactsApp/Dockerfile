@@ -7,6 +7,7 @@ WORKDIR /var/lib/jenkins/workspace/demo2_main-docker/contacts.app.api-testing/Co
 
 COPY . ./
 RUN ls -la
+WORKDIR /var/lib/jenkins/workspace/demo2_main-docker/contacts.app.api-testing/ContactsApp/ContactsApp
 RUN dotnet restore
 
 # Copy the remaining source code and build the application
