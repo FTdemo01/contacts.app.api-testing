@@ -32,17 +32,11 @@ pipeline {
         stage('Build docker') {
             steps {
                 sh 'docker build -t my-image1:latest -f contacts.app.api-testing/ContactsApp/Dockerfile .'
-                sh "docker tag my-image1:latest:latest "
-                sh "docker push my-image1:latest"
+                sh 'docker tag my-image1:latest 192.168.1.100/my-image1:latest'
+                sh 'docker push 192.168.1.100/my-image1:latest'
             }
         }
       
-    
-        stage('Deploy to container') {
-            steps {
-                sh 'docker run -d --name my-image1 -p 8081:80 my-image1:latest' 
-            }
-        }
     
     }
 
