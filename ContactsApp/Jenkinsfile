@@ -36,8 +36,17 @@ pipeline {
                 sh 'docker push 34.215.164.128/my-image1:latest'
             }
         }
-      
+        
+        stage('Push image to hub') {
+            steps {
+                withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'Admin@920')])
+                sh 'docker login -u admin920 -p ${Admin@920}'
+
+                sh 'docker push admin920/my-image1'
+            }
+        }
     
+
     }
 
     post {
